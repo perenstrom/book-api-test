@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class BooksController : Controller
     {
         private readonly IBookRepository _bookRepository;
@@ -17,14 +17,12 @@ namespace BookApi.Controllers
             _bookRepository = bookRepository;
         }
         
-        // GET: api/values
         [HttpGet]
         public IEnumerable<Book> Get()
         {
             return _bookRepository.All();
         }
 
-        // GET api/values/5
         [HttpGet("{id}", Name = "GetBook")]
         public ActionResult Get(int id)
         {
@@ -36,7 +34,6 @@ namespace BookApi.Controllers
             return Ok(book);
         }
 
-        // POST api/values
         [HttpPost]
         public IActionResult Post([FromBody]Book book)
         {
@@ -44,7 +41,6 @@ namespace BookApi.Controllers
             return CreatedAtRoute("GetBook", new {id = book.Id}, book);
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]Book book)
         {
@@ -52,7 +48,6 @@ namespace BookApi.Controllers
             return Ok();
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
