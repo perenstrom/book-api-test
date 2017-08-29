@@ -1,7 +1,5 @@
 # REST
 
-## REST
-
 - Clona detta projekt
 - Öppna upp projektet i VS och kör det (Start without debugging).
 
