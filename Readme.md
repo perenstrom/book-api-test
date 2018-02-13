@@ -41,3 +41,56 @@ Om allt fungerar som det ska så kommer du få tillbaka följande data:
 ```
 - Du kommer på att du inte alls tycker om bok nr 2 så du tar bort den genom DELETE
 - Som du säkert redan har lagt märke till så har alla böcker hittills haft en property som heter `author` och som har värdet 1. Detta är en referens (id) till en författare identitet. Tyärr så finns inte någon endpoint för att hämta ut författare :/ Så för tillfället kan man inte ta reda på vad författaren med id 1 heter. Det är nu din uppgift att lösa detta. Skapa en ny controller som heter AuthorController som innehåller REST verben: GET, POST, PUT, DELETE. Ta hjälp av `AuthorRepository`. Du kan få mycket inspiration från `BooksController` men gör inte dig själv en björntjänst och kopiera allt utan sätt dig in i koden och förstå vad de olika verben gör.
+
+
+---
+
+När man ska integrera frontend med backend så är det väldigt tråkigt att behöva gå till källkoden för att se hur api:et är utformat. Därför ska vi lägga till lite dokumentation till rest-api:et. Eftersom det är tråkigt att skriva dokumentation själv, och den snabbt blir utdaterad så ska vi använda oss av [Swagger](https://swagger.io/) och [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) för att generera den. 
+
+För lite 
+
+- Lägg till NuGet-paketet `Swashbuckle.AspNetCore` till projektet
+- Lägg till följande snippet i metoden `ConfigureServices` i filen `Startup.cs`
+
+```cs
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddSingleton<IBookRepository, BookRepository>();
+    services.AddSingleton<IAuthorRepository, AuthorRepository>();
+    services.AddMvc();
+
+    services.AddSwaggerGen(c =>
+    {
+        c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+    });
+}
+```
+
+- Lägg till följande snippet i metoden `Configure` i filen `Startup.cs`
+
+```cs
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseSession();
+
+            app.UseMvc();
+
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+        }
+```
+
+- Surfa in på `/swagger/` och njut av din vackra API-dokumentation
+
+- Färdig? Gött! :punch: 
+- Antingen kan du bygga en frontend för ditt api, eller gå tillbaka till någon tidigare labb.
