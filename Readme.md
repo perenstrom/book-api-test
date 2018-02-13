@@ -76,8 +76,6 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSession();
-
             app.UseMvc();
 
             app.UseSwagger();
