@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace BookApi
 {
@@ -16,6 +17,8 @@ namespace BookApi
             services.AddSingleton<IBookRepository, BookRepository>();
             services.AddSingleton<IAuthorRepository, AuthorRepository>();
             services.AddMvc();
+
+            //services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "My API".Version = "v1"}); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
